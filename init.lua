@@ -85,7 +85,11 @@ I hope you enjoy your Neovim journey,
 
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
-
+vim.opt.tabstop = 4 -- A TAB character looks like 4 spaces
+vim.opt.shiftwidth = 4 -- Number of spaces to use for autoindenting
+vim.opt.expandtab = true -- Use spaces instead of tabs (recommended for consistency)
+vim.opt.autoindent = true -- Automatically indent new lines
+vim.opt.smartindent = true -- Smarter autoindenting for C-style files
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -176,7 +180,11 @@ vim.o.confirm = true
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
+--sets the insert mode arrow key jumping so it works
 
+vim.api.nvim_set_keymap('i', '<C-Right>', '<End>', { noremap = true, silent = true })
+
+vim.api.nvim_set_keymap('i', '<C-Left>', '<C-o>b', { noremap = true, silent = true })
 -- movemnet of line keys
 -- Insert mode: Move current line down
 vim.keymap.set('i', '<A-j>', '<Esc>:m .+1<CR>==gi', { noremap = true, silent = true })
@@ -713,6 +721,7 @@ require('lazy').setup({
             '--clang-tidy-checks=*', -- enable all checks
             '--completion-style=detailed',
             '--header-insertion=iwyu',
+            '--fallback-style=webkit',
           },
         },
         -- gopls = {},
@@ -990,7 +999,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'cpp', 'cuda', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -1024,7 +1033,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
